@@ -6,7 +6,7 @@ const Index = () => {
 
     const [Id, setId] = useState('');
     const [Password, setPassword] = useState('');
-
+    
     const ohChangeId = useCallback((e) => {
         setId(e.target.value)
     }, [Id]);
@@ -25,8 +25,8 @@ const Index = () => {
                     <Input style={{ borderWidth: '0px 0px 2px 0px', fontFamily: 'Roboto, sans-serif' }} onChange={ohChangeId} ></Input>
                     <br /> <br /> <br />
                     <p style={{ marginBottom: '1px' }}><b>Password</b></p>
-                    <Input style={{ borderWidth: '0px 0px 2px 0px', fontFamily: 'Roboto, sans-serif' }} onChange={onChagePassword}></Input>
-                    <br /> <br /> <br />
+                    <Input.Password style={{ borderWidth: '0px 0px 2px 0px', fontFamily: 'Roboto, sans-serif' }} onChange={onChagePassword}></Input.Password>
+                    <br /> <br /> <br /> <br /> 
                     <div style={{ textAlign: 'center' }}>
                         <p style={{ fontSize: '20px', display: 'inline', cursor: 'pointer' }}>Login</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Link href='/signup'><a><p style={{ fontSize: '20px', display: 'inline', color: 'black' }}>SignUp</p></a></Link>
