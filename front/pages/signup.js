@@ -8,13 +8,17 @@ const signup = () => {
     const [NickName, setNickName] = useState('');
     const [Password, setPassword] = useState('');
     const [PasswordCheck, setPasswordCheck] = useState('');
+    const [IdCheck, setIdCheck] = useState(false);
+    const [NickNameCheck, setNickNameCheck] = useState(false);
 
     const ohChangeId = useCallback((e) => {
         setId(e.target.value)
+        setIdCheck(false)
     }, [Id]);
 
     const ohChangeNickName = useCallback((e) => {
         setNickName(e.target.value)
+        setNickNameCheck(false)
     }, [NickName]);
 
     const onChagePassword = useCallback((e) => {
@@ -26,9 +30,15 @@ const signup = () => {
     }, [PasswordCheck]);
 
     const onClickIdCheck = (e) => { //아이디 중복 확인
+        //중복이면 
 
+        //중복이 아니면
+        setIdCheck(true)
     }
     const onClickNickNameCheck = (e) => { //닉네임 중복 확인
+        //중복이면
+
+        //중복이아니면
 
     }
     const onClickConfirm = () => { //회원가입 완료
@@ -45,10 +55,10 @@ const signup = () => {
                 <Col sm={8} xs={6}></Col>
                 <Col sm={8} xs={12}>
                     <h1 style={{ textAlign: 'center', marginBottom: '10%' }}>By 4Makers</h1>
-                    <p style={{ marginBottom: '1px', display: 'inline' }}><b>ID</b></p>  <p style={{ marginBottom: '1px', float: 'right', cursor: 'pointer', color: 'black' }} onClick={onClickIdCheck}>Check</p>
+                    <p style={{ marginBottom: '1px', display: 'inline' }}><b>ID</b></p>  <div style={{marginBottom: '1px', float: 'right',}}><p style={{  cursor: 'pointer', color: 'black', display:'inline' }} onClick={onClickIdCheck}>Check</p><Checkbox style={{marginLeft:'5px'}} checked={IdCheck} defaultChecked={false} disabled /></div>
                     <Input style={{ borderWidth: '0px 0px 2px 0px', fontFamily: 'Roboto, sans-serif' }} onChange={ohChangeId} ></Input>
                     <br /> <br />
-                    <p style={{ marginBottom: '1px', display: 'inline' }}><b>NickName</b></p>   <p style={{ marginBottom: '1px', float: 'right', cursor: 'pointer', color: 'black' }} onClick={onClickIdCheck}>Check</p>
+                    <p style={{ marginBottom: '1px', display: 'inline' }}><b>NickName</b></p>   <div style={{marginBottom: '1px', float: 'right',}}><p style={{ cursor: 'pointer', color: 'black',  display:'inline'  }} onClick={onClickNickNameCheck}>Check</p><Checkbox style={{marginLeft:'5px'}} checked={NickNameCheck} defaultChecked={false} disabled /></div>
                     <Input style={{ borderWidth: '0px 0px 2px 0px', fontFamily: 'Roboto, sans-serif' }} onChange={ohChangeNickName} ></Input>
                     <br /> <br />
                     <p style={{ marginBottom: '1px' }}><b>Password</b></p>
