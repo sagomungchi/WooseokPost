@@ -4,7 +4,7 @@
     "password": "root",
     "database": "sprint",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "operatorsAliases": false
   },
   "test": {
@@ -12,7 +12,7 @@
     "password": "root",
     "database": "sprint",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "operatorsAliases": false
   },
   "production": {
@@ -20,7 +20,7 @@
     "password": "root",
     "database": "sprint",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "operatorsAliases": false
   }
 }
