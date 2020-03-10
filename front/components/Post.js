@@ -2,6 +2,7 @@ import react, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Col, Row, Divider, List, Spin, message, Modal } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
+import axios from 'axios';
 
 import Wirte from './write';
 
@@ -24,7 +25,7 @@ const dataList = [{
 ]
 
 
-const post = () => {
+const post = (props) => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -72,6 +73,20 @@ const post = () => {
 
     };
 
+    const logoutOnClick = () => {
+        try {
+            axios
+            .post(`http://localhost:3065/api/user/logout`)
+            .then(req=>{
+                props.setLogin(false); 
+                message.success(`로그아웃 완료하였습니다!`);
+            })
+        } catch (error) {
+            console.error(error);
+        }
+        
+    }
+
     return (
         <Row style={{ marginTop: '1%' }}>
             <Col sm={8} xs={6}></Col>
@@ -79,8 +94,8 @@ const post = () => {
                 <div style={{ textAlign: 'center' }}>
                     <Link href='/'><a><p style={{ fontSize: '20px', display: 'inline', color: 'black', float: 'left', marginTop: '9px', marginBottom: '10px' }}>Write</p></a></Link>&nbsp;&nbsp;&nbsp;
                     <Link href='/'><a><h1 style={{ cursor: 'pointer', display: 'inline', textAlign: 'center', marginBottom: '10px' }}> 4Makers </h1></a></Link>
-                    <Link href='/'><a><p style={{ fontSize: '20px', color: 'black', float: 'right', marginTop: '9px', marginBottom: '10px' }}>LogOut</p></a></Link>&nbsp;&nbsp;&nbsp;
-                            <Divider style={{ marginTop: '1px' }} />
+                    <p style={{ fontSize: '20px', color: 'black', float: 'right', marginTop: '9px', marginBottom: '10px', cursor:'pointer' }} onClick={logoutOnClick} >LogOut</p>&nbsp;&nbsp;&nbsp;
+                            <Divider style={{ marginTop: '1px' , marginBottom:'10px' }} />
 
                     <Wirte />
 
@@ -91,9 +106,7 @@ const post = () => {
                             loadMore={handleInfiniteOnLoad}
                             hasMore={!loading && hasMore}
                             useWindow={true}
-
                         >
-
                             <List
                                 dataSource={data}
                                 grid={{

@@ -1,7 +1,11 @@
-{
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+module.exports = {
   "development": {
     "username": "root",
-    "password": "root",
+    "password": process.env.DB_PASSWORD,
     "database": "sprint",
     "host": "127.0.0.1",
     "dialect": "mariadb",
@@ -9,7 +13,7 @@
   },
   "test": {
     "username": "root",
-    "password": "root",
+    "password": process.env.DB_PASSWORD,
     "database": "sprint",
     "host": "127.0.0.1",
     "dialect": "mariadb",
@@ -17,7 +21,7 @@
   },
   "production": {
     "username": "root",
-    "password": "root",
+    "password": process.env.DB_PASSWORD,
     "database": "sprint",
     "host": "127.0.0.1",
     "dialect": "mariadb",

@@ -37,12 +37,12 @@ const write = () => {
         <Row>
             <Col sm={24} style={{ paddingLeft: '30px', paddingRight: '30px', fontFamily: 'Roboto, sans-serif' }}>
                 <div style={{ float: "left", marginBottom: '10px' }}>
-                    <Upload {...props}><Button type={'default'} > <UploadOutlined />이미지</Button></Upload>
+                    <Upload  {...props}><Button type={'default'} shape="round" style={{paddingLeft:'5px'}} > <UploadOutlined />이미지</Button></Upload>
                 </div>
-                <TextArea style={{ height: '200px' }} onChange={textOnChange} />
+                <TextArea  style={{ height: '200px' , borderRadius: '10px' }} onChange={textOnChange} />
                 <div style={{ float: "right", marginTop: '10px' }}>
 
-                    <Button type={'default'} style={{ marginBottom: '15px' }}>글쓰기</Button>
+                    <Button type={'default'} style={{ marginBottom: '15px' }} shape="round">글쓰기</Button>
                     <br />
                 </div>
             </Col>
