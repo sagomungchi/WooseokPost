@@ -1,29 +1,12 @@
 import react, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Col, Row, Divider, List, Spin, message, Modal } from 'antd';
+import { Col, Row, Divider, List, Spin, message, Modal, Button, Input, Affix } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 
 import Wirte from './write';
 
-const dataList = [{
-    postId: 1,
-    img: 'http://localhost:3065/중국상장 (2)1583953381459.png',
-},
-{
-    PostId: 2,
-    img: 'https://i.pinimg.com/originals/a9/f4/8e/a9f48e0b63fabdd91ba620b057a20003.png',
-},
-{
-    postId: 3,
-    img: 'https://coinpan.com/files/attach/images/198/228/868/065/a495aeb56f2aef77704d42bf64d6bb61.jpg',
-},
-{
-    postId: 4,
-    img: 'https://www.etoland.co.kr/data/file0207/etohumor/2041158719_JpXB8LqS_IMG_20180223_101005.jpg',
-},
-]
-
+const { TextArea, Search } = Input;
 
 const post = (props) => {
 
@@ -31,6 +14,8 @@ const post = (props) => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [postVisible, setPostVisible] = useState(false);
+    const [statusM, setStatusM] = useState(false); //수정화면 출력
+    const [textAreaM, setTextAreaM] = useState(''); //수정 텍스트
 
     const [modalTitle, setModalTitle] = useState('');
     const [modalContent, setModalContent] = useState('');
@@ -46,16 +31,40 @@ const post = (props) => {
         }
     }, [])
 
-    const showPostModal = () => {
+    const showPostModal = (item) => () => {
         setPostVisible(true);
+        setModalTitle(item.User.nickname);
+        setModalContent(item.content)
+    
     }
 
     const postHandleOk = (e) => {
+        //만약 수정할 텍스트가 있다면 
+        if(textAreaM || textAreaM.trim()){
+            try {
+                //axios
+                console.log('hello')
+            } catch (error) {
+                
+            }
+        }
+        setTextAreaM('');
         setPostVisible(false); //모달창 끄기
+        setStatusM(false);
     }
 
     const postHandleCancel = (e) => {
         setPostVisible(false);
+        setStatusM(false);
+        setTextAreaM('');
+    }
+
+    const deletePost = ()=>{
+        try {
+            //axios
+        } catch (error) {
+            
+        }
     }
 
     const handleInfiniteOnLoad = () => { //무한 스크롤
@@ -92,6 +101,17 @@ const post = (props) => {
 
     }
 
+    const onSearchReq = (value) =>{
+        try {  
+            axios.get(`http://localhost:3065/api/post/?search=${value}`)
+                .then(res => {
+                    setData(res.data)
+                })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <Row style={{ marginTop: '1%' }}>
             <Col sm={8} xs={6}></Col>
@@ -125,17 +145,29 @@ const post = (props) => {
                                 renderItem={item => (
 
                                     <List.Item key={item.id}>
-                                        {console.log(item)}
-                                        <img style={{ cursor: 'pointer', width: '100%', height: '250px' }} onClick={showPostModal} src={`http://localhost:3065/` + item.Images[0].src} alt="Image" />
+                                        <img style={{ cursor: 'pointer', width: '100%', height: '250px' }} onClick={showPostModal(item)} src={`http://localhost:3065/` + item.Images[0].src} alt="Image" />
                                         <Modal
-                                            title={item.User.nickname}
+                                            title={[modalTitle, <div style={{float:'right', marginRight:'20px'}}>
+                                            <Button type="ghost"  onClick={()=>{setStatusM(true)}}  shape="circle-outline" style={{marginRight:'5px'}}>수정</Button>
+                                            <Button type="ghost"  onClick={deletePost} shape="circle-outline" >삭제</Button>
+                                            </div>]}
                                             visible={postVisible}
                                             onOk={postHandleOk}
                                             onCancel={postHandleCancel}
-                                            okButtonProps={{ type: 'ghost', shape: 'round' }}
+                                            okButtonProps={{ type: 'ghost', shape: 'round'}}
                                             cancelButtonProps={{ type: 'ghost', shape: 'round' }}
                                         >
-                                            <p>{item.content}</p>
+                                            <p>{modalContent}</p>
+                                            {statusM?   //수정도움화면 출력
+                                            <div>
+                                            <Divider /> 
+                                            <TextArea row={4} onChange={(e)=>{setTextAreaM(e.target.value)}} />
+                                            </div>:
+                                            <></>
+                                            }
+
+        
+                                            
                                 
                                         </Modal>
                                     </List.Item>
@@ -153,7 +185,15 @@ const post = (props) => {
                 </div>
 
             </Col>
-            <Col sm={8} xs={6}></Col>
+            <Col sm={8} xs={6}>
+                <Affix style={{ textAlign:'center', marginLeft:'5%' }} offsetTop={860}>
+                    <Search
+                        placeholder="input search Content"
+                        onSearch={onSearchReq}
+                        style={{ width: 400 , borderWidth: '0px 0px 2px 0px', }}
+                    />
+                </Affix>
+            </Col>
         </Row>
     )
 }
