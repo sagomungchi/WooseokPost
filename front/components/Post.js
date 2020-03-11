@@ -8,7 +8,7 @@ import Wirte from './write';
 
 const dataList = [{
     postId: 1,
-    img: 'https://thumb.pann.com/tc_480/http://fimg4.pann.com/new/download.jsp?FileID=38125487',
+    img: 'http://localhost:3065/중국상장 (2)1583953381459.png',
 },
 {
     PostId: 2,
@@ -32,11 +32,18 @@ const post = (props) => {
     const [hasMore, setHasMore] = useState(true);
     const [postVisible, setPostVisible] = useState(false);
 
-    useEffect(() => {
-        setData(dataList);
-        return () => {
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalContent, setModalContent] = useState('');
 
-        };
+    useEffect(() => {
+        try {
+            axios.get(`http://localhost:3065/api/posts`)
+                .then(res => {
+                    setData(res.data);
+                })
+        } catch (error) {
+
+        }
     }, [])
 
     const showPostModal = () => {
@@ -52,39 +59,37 @@ const post = (props) => {
     }
 
     const handleInfiniteOnLoad = () => { //무한 스크롤
-        let dataSet = data;
+        // let dataSet = data;
 
-        console.log(dataSet.length)
+        // setLoading(true);
 
-        setLoading(true);
+        // if (dataSet.length > 16) { //데이터가 끝일때
+        //     message.warning('새로운 게시물이 없습니다!');
 
-        if (dataSet.length > 16) { //데이터가 끝일때
-            message.warning('새로운 게시물이 없습니다!');
+        //     setHasMore(false);
+        //     setLoading(false); //return?
+        //     return;
+        // }
 
-            setHasMore(false);
-            setLoading(false); //return?
-            return;
-        }
-
-        //concat으로 새로 불러온 리스트 데이터 붙이기 
-        dataSet = dataSet.concat(data);
-        setData(dataSet);
-        setLoading(false);
+        // //concat으로 새로 불러온 리스트 데이터 붙이기 
+        // dataSet = dataSet.concat(data);
+        // setData(dataSet);
+        // setLoading(false);
 
     };
 
     const logoutOnClick = () => { //로그아웃
         try {
             axios
-            .post(`http://localhost:3065/api/user/logout`, {}, {withCredentials:true})
-            .then(req=>{
-                props.setLogin(false); 
-                message.success(`로그아웃 완료하였습니다!`);
-            })
+                .post(`http://localhost:3065/api/user/logout`, {}, { withCredentials: true })
+                .then(req => {
+                    props.setLogin(false);
+                    message.success(`로그아웃 완료하였습니다!`);
+                })
         } catch (error) {
             console.error(error);
         }
-        
+
     }
 
     return (
@@ -94,8 +99,8 @@ const post = (props) => {
                 <div style={{ textAlign: 'center' }}>
                     <p style={{ fontSize: '20px', display: 'inline', color: 'black', float: 'left', marginTop: '9px', marginBottom: '10px' }}>Welcome {props.me && props.me.nickname}</p>
                     <Link href='/'><a><h1 style={{ cursor: 'pointer', display: 'inline', textAlign: 'center', marginBottom: '10px' }}> 4Makers </h1></a></Link>
-                    <p style={{ fontSize: '20px', color: 'black', float: 'right', marginTop: '9px', marginBottom: '10px', cursor:'pointer' }} onClick={logoutOnClick} >LogOut</p>&nbsp;&nbsp;&nbsp;
-                            <Divider style={{ marginTop: '1px' , marginBottom:'10px' }} />
+                    <p style={{ fontSize: '20px', color: 'black', float: 'right', marginTop: '9px', marginBottom: '10px', cursor: 'pointer' }} onClick={logoutOnClick} >LogOut</p>&nbsp;&nbsp;&nbsp;
+                            <Divider style={{ marginTop: '1px', marginBottom: '10px' }} />
 
                     <Wirte />
 
@@ -107,6 +112,7 @@ const post = (props) => {
                             hasMore={!loading && hasMore}
                             useWindow={true}
                         >
+
                             <List
                                 dataSource={data}
                                 grid={{
@@ -117,19 +123,20 @@ const post = (props) => {
                                 }}
 
                                 renderItem={item => (
-                                    <List.Item key={item.postId}>
-                                        <img style={{ cursor: 'pointer', width: '100%', height: '250px' }} onClick={showPostModal} src={item.img} alt="Image" />
+
+                                    <List.Item key={item.id}>
+                                        {console.log(item)}
+                                        <img style={{ cursor: 'pointer', width: '100%', height: '250px' }} onClick={showPostModal} src={`http://localhost:3065/` + item.Images[0].src} alt="Image" />
                                         <Modal
-                                            title="Basic Modal"
+                                            title={item.User.nickname}
                                             visible={postVisible}
                                             onOk={postHandleOk}
                                             onCancel={postHandleCancel}
                                             okButtonProps={{ type: 'ghost', shape: 'round' }}
                                             cancelButtonProps={{ type: 'ghost', shape: 'round' }}
                                         >
-                                            <p>Some contents...</p>
-                                            <p>Some contents...</p>
-                                            <p>Some contents...</p>
+                                            <p>{item.content}</p>
+                                
                                         </Modal>
                                     </List.Item>
                                 )}
@@ -140,6 +147,7 @@ const post = (props) => {
                                     </div>
                                 )}
                             </List>
+                            
                         </InfiniteScroll>
                     </Row>
                 </div>

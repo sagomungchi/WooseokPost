@@ -39,7 +39,7 @@ const signup = () => {
                     .post(`http://localhost:3065/api/user/idCheck`, {
                         userId: userId
                     }).then(res => {
-                        console.log(res.data.existence)
+                
                         if (res.data.existence === false) { //아이디가 중복되지 않았다면 체크
                             setuserIdCheck(true);
                         } else {
@@ -85,9 +85,9 @@ const signup = () => {
                     password : password
                 })
                 .then(res=>{
-                    console.log(res)
+               
                     if(res.data.success){
-                        console.log(res)
+                      
                         Router.push('/');
                         message.success('회원가입 완료!')
                     }

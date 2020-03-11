@@ -18,6 +18,7 @@ db.sequelize.sync();
 passportConfig();
 
 app.use(morgan('dev')); //로깅하는 미들웨어
+app.use('/' , express.static('uploads')) ; //이미지 업로드를 위함 (앞의 주소는 프런트가 접근하는 주소)
 app.use(express.json());//req.body가 동작하게 만들기 위함
 app.use(express.urlencoded({ extended : true})); 
 app.use(cors({

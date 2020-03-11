@@ -79,7 +79,7 @@ router.post('/login', (req, res, next) => {
             try {
                 
                 const filteredUser = Object.assign({}, user.toJSON());
-                console.log(filteredUser);
+            
                 delete filteredUser.password;
                 return res.json(filteredUser);
             } catch (error) {

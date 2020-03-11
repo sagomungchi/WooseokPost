@@ -6,31 +6,34 @@ import { UploadOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
-const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-        authorization: 'authorization-text',
-    },
-    onChange(info) {
-        if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
-};
 
 const write = () => {
 
     const [textValue, setTextValue] = useState('');
+    const [imagePath, setImagePath] = useState('');
 
     const textOnChange = useCallback((e) => {
         setTextValue(e.target.value);
     }, [textValue])
+
+    const props = { //업로드 설정
+        name: 'file',
+        action: 'http://localhost:3065/api/post/images',
+        withCredentials: true,
+        headers: {
+            authorization: 'authorization-text',
+        },
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                setImagePath(info.file.response[0])
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
 
     const writeOnClick = () => {
         try {
@@ -38,7 +41,8 @@ const write = () => {
                 return message.error(`공백은 작성이 불가능 합니다!`);
             }
             axios.post(`http://localhost:3065/api/post`,{
-                content : textValue
+                content : textValue,
+                image : imagePath,
             },{withCredentials:true})
             .then(res=>{
                 window.location.reload();

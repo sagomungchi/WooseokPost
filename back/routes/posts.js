@@ -9,6 +9,8 @@ router.get('/', async(req, res, next)=>{
             include: [{
                 model : db.User,
                 attributes: ['id', 'nickname'],
+            },{
+                model : db.Image,
             }],
             order : [['createdAt', 'DESC']], //DESC 내림차순, ASC 오름차순  (1순위 2순위 가능)
         });
