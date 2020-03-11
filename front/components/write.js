@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Input, Button, Row, Col, Upload, message } from 'antd';
+import axios from 'axios';
 
 import { UploadOutlined } from '@ant-design/icons';
 
@@ -31,6 +32,22 @@ const write = () => {
         setTextValue(e.target.value);
     }, [textValue])
 
+    const writeOnClick = () => {
+        try {
+            if(!textValue || !textValue.trim()){
+                return message.error(`공백은 작성이 불가능 합니다!`);
+            }
+            axios.post(`http://localhost:3065/api/post`,{
+                content : textValue
+            },{withCredentials:true})
+            .then(res=>{
+                window.location.reload();
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    
     //Upload
 
     return (
@@ -42,7 +59,7 @@ const write = () => {
                 <TextArea  style={{ height: '200px' , borderRadius: '10px' }} onChange={textOnChange} />
                 <div style={{ float: "right", marginTop: '10px' }}>
 
-                    <Button type={'default'} style={{ marginBottom: '15px' }} shape="round">글쓰기</Button>
+                    <Button type={'default'} style={{ marginBottom: '15px' }} shape="round" onClick={writeOnClick} >글쓰기</Button>
                     <br />
                 </div>
             </Col>
