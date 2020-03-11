@@ -19,6 +19,7 @@ const post = (props) => {
 
     const [modalTitle, setModalTitle] = useState('');
     const [modalContent, setModalContent] = useState('');
+    const [postId, setPostId] = useState(null);
 
     useEffect(() => {
         try {
@@ -35,7 +36,7 @@ const post = (props) => {
         setPostVisible(true);
         setModalTitle(item.User.nickname);
         setModalContent(item.content)
-    
+        setPostId(item.id);
     }
 
     const postHandleOk = (e) => {
@@ -51,19 +52,23 @@ const post = (props) => {
         setTextAreaM('');
         setPostVisible(false); //모달창 끄기
         setStatusM(false);
+        setPostId(null);
     }
 
     const postHandleCancel = (e) => {
         setPostVisible(false);
         setStatusM(false);
         setTextAreaM('');
+        setPostId(null);
     }
 
-    const deletePost = ()=>{
+    const deletePost = () => {
         try {
-            //axios
+            axios.delete(`http://localhost:3065/api/post?postId=${postId}`)
+            window.location.reload();
+
         } catch (error) {
-            
+            console.error(error);
         }
     }
 
@@ -165,10 +170,6 @@ const post = (props) => {
                                             </div>:
                                             <></>
                                             }
-
-        
-                                            
-                                
                                         </Modal>
                                     </List.Item>
                                 )}

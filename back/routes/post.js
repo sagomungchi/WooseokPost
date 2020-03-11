@@ -31,6 +31,21 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+router.delete("/", async (req, res, next) => { //삭제
+    try {
+        const post = await db.Post.destroy({
+            where: { 
+                id: req.query.postId
+            },
+        });
+        res.send(post); //변형하지 않은경우는 그대로 보내줘도 되지만 변형하면 toJSON()을 해줘야함 
+    } catch (error) {
+        console.error(error);
+        next(error)
+    }
+});
+
+
 router.post('/', async (req, res, next) => {
     try {
         const newPost = await db.Post.create({
