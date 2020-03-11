@@ -1,8 +1,5 @@
 import react from 'react';
 import Head from 'next/head';
-import { Row, Col } from 'antd';
-
-
 
 import 'antd/dist/antd.css';
 
@@ -16,6 +13,7 @@ const Jrun2ng = ({ Component }) => {
             </Head>
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet"></link>
             <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet"></link>
+            <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet"></link>
 
 
             <Component />

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import Link from 'next/link';
-import { Row, Col, Input } from 'antd';
+import { Row, Col, Input, message } from 'antd';
 import axois from 'axios';
 
 const login = (props) => {
@@ -17,22 +17,26 @@ const login = (props) => {
 
     const LoginOnClick = () => { //로그인시도
         try {
-            console.log('hilogin')
             if (userId !== '' && password !== '') {
                 axois
                 .post(`http://localhost:3065/api/user/login`, {
                     userId : userId,
                     password : password,
-                })
+                }, {withCredentials : true,}) //쿠키를 주고 받을 수 있도록 세번째 인자 설정 
                 .then(res=>{
                     if(res.status === 200){ //로그인 성공이면
                         props.setLogin(true);
+                        props.setMe({
+                            nickname : res.data.nickname,
+                            userId : res.data.userId,
+                        })
                     }
                 })
             }
         } catch (error) {
             console.error(error);
         }
+        
     }
 
 

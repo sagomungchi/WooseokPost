@@ -5,15 +5,16 @@ const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
-Object.keys(db).forEach(modelName => {
+db.User = require('./user')(sequelize, Sequelize);
+db.Post = require('./post')(sequelize, Sequelize);
+db.Image = require('./image')(sequelize, Sequelize);  
+
+Object.keys(db).forEach(modelName => {          //db가 먼저 연결되야 associate가 되야함
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
 
-db.User = require('./user')(sequelize, Sequelize);
-db.Post = require('./post')(sequelize, Sequelize);
-db.Image = require('./image')(sequelize, Sequelize);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

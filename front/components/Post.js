@@ -73,10 +73,10 @@ const post = (props) => {
 
     };
 
-    const logoutOnClick = () => {
+    const logoutOnClick = () => { //로그아웃
         try {
             axios
-            .post(`http://localhost:3065/api/user/logout`)
+            .post(`http://localhost:3065/api/user/logout`, {}, {withCredentials:true})
             .then(req=>{
                 props.setLogin(false); 
                 message.success(`로그아웃 완료하였습니다!`);
@@ -92,7 +92,7 @@ const post = (props) => {
             <Col sm={8} xs={6}></Col>
             <Col sm={8} xs={12}>
                 <div style={{ textAlign: 'center' }}>
-                    <Link href='/'><a><p style={{ fontSize: '20px', display: 'inline', color: 'black', float: 'left', marginTop: '9px', marginBottom: '10px' }}>Write</p></a></Link>&nbsp;&nbsp;&nbsp;
+                    <p style={{ fontSize: '20px', display: 'inline', color: 'black', float: 'left', marginTop: '9px', marginBottom: '10px' }}>Welcome {props.me && props.me.nickname}</p>
                     <Link href='/'><a><h1 style={{ cursor: 'pointer', display: 'inline', textAlign: 'center', marginBottom: '10px' }}> 4Makers </h1></a></Link>
                     <p style={{ fontSize: '20px', color: 'black', float: 'right', marginTop: '9px', marginBottom: '10px', cursor:'pointer' }} onClick={logoutOnClick} >LogOut</p>&nbsp;&nbsp;&nbsp;
                             <Divider style={{ marginTop: '1px' , marginBottom:'10px' }} />

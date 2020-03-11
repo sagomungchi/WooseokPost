@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.associate = (db) => {
-        db.User.hasMany(db.Post, { as : 'Post' });
-        db.User.belongsToMany(db.Post, { through : 'Like '});
+        db.User.hasMany(db.Post, { as : 'Posts' });
+        db.User.belongsToMany(db.Post, { through : 'Like' , as : 'Liked'});
     };
 
     return User;
