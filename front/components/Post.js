@@ -56,6 +56,7 @@ const post = (props) => {
                     setStatusM(false);
                     setTextAreaM('');
                     setPostId(null);
+                    message.success('글수정 완료!')
                 })
                 
             } catch (error) {
@@ -86,6 +87,7 @@ const post = (props) => {
             setStatusM(false);
             setTextAreaM('');
             setPostId(null);
+            message.success('글삭제 완료!')
 
         } catch (error) {
             console.error(error);

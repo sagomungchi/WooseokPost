@@ -52,6 +52,7 @@ const write = (prop) => {
                         axios.get(`http://localhost:3065/api/posts`)
                         .then(res => {
                             prop.setData(res.data);
+                            message.success('글작성을 완료했습니다!')
                         })
                     })
             }else{
