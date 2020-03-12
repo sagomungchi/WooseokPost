@@ -37,30 +37,34 @@ const write = (prop) => {
 
     const writeOnClick = () => {
         try {
-            if(!textValue || !textValue.trim()){
+            if (!textValue || !textValue.trim()) {
                 return message.error(`공백은 작성이 불가능 합니다!`);
             }
-            axios.post(`http://localhost:3065/api/post`,{
-                content : textValue,
-                image : imagePath,
-            },{withCredentials:true})
-            .then(res=>{
-               window.location.reload()
-            })
+            if (imagePath) {
+                axios.post(`http://localhost:3065/api/post`, {
+                    content: textValue,
+                    image: imagePath,
+                }, { withCredentials: true })
+                    .then(res => {
+                        window.location.reload()
+                    })
+            }else{
+                return message.error(`이미지는 필수입니다!`);
+            }
         } catch (error) {
             console.error(error)
         }
     }
-    
+
     //Upload
 
     return (
         <Row>
             <Col sm={24} style={{ paddingLeft: '30px', paddingRight: '30px', fontFamily: 'Roboto, sans-serif' }}>
                 <div style={{ float: "left", marginBottom: '10px' }}>
-                    <Upload  {...props}><Button type={'default'} shape="round" style={{paddingLeft:'5px'}} > <UploadOutlined />이미지</Button></Upload>
+                    <Upload  {...props}><Button type={'default'} shape="round" style={{ paddingLeft: '5px' }} > <UploadOutlined />이미지</Button></Upload>
                 </div>
-                <TextArea  style={{ height: '200px' , borderRadius: '10px' }} onChange={textOnChange} />
+                <TextArea style={{ height: '200px', borderRadius: '10px' }} onChange={textOnChange} />
                 <div style={{ float: "right", marginTop: '10px' }}>
 
                     <Button type={'default'} style={{ marginBottom: '15px' }} shape="round" onClick={writeOnClick} >글쓰기</Button>
