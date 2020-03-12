@@ -20,6 +20,7 @@ const write = (prop) => {
         name: 'file',
         action: 'http://localhost:3065/api/post/images',
         withCredentials: true,
+        showUploadList: false,
         headers: {
             authorization: 'authorization-text',
         },
@@ -28,7 +29,7 @@ const write = (prop) => {
                 setImagePath(info.file.response[0])
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
+                message.success(`${info.file.name} 업로드 성공하였습니다. 글을 작성해주세요!`);
             } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
             }
@@ -46,7 +47,12 @@ const write = (prop) => {
                     image: imagePath,
                 }, { withCredentials: true })
                     .then(res => {
-                        window.location.reload()
+                        setTextValue('');
+                        setImagePath('');
+                        axios.get(`http://localhost:3065/api/posts`)
+                        .then(res => {
+                            prop.setData(res.data);
+                        })
                     })
             }else{
                 return message.error(`이미지는 필수입니다!`);
@@ -64,7 +70,7 @@ const write = (prop) => {
                 <div style={{ float: "left", marginBottom: '10px' }}>
                     <Upload  {...props}><Button type={'default'} shape="round" style={{ paddingLeft: '5px' }} > <UploadOutlined />이미지</Button></Upload>
                 </div>
-                <TextArea style={{ height: '200px', borderRadius: '10px' }} onChange={textOnChange} />
+                <TextArea style={{ height: '200px', borderRadius: '10px' }} value={textValue} onChange={textOnChange} />
                 <div style={{ float: "right", marginTop: '10px' }}>
 
                     <Button type={'default'} style={{ marginBottom: '15px' }} shape="round" onClick={writeOnClick} >글쓰기</Button>
