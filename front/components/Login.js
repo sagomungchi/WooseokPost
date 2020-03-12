@@ -30,6 +30,7 @@ const login = (props) => {
                             nickname : res.data.nickname,
                             userId : res.data.userId,
                         })
+                        message.success(`환영합니다 ${res.data.nickname}님!`);
                     }
                 })
             }
