@@ -41,12 +41,25 @@ const post = (props) => {
 
     const postHandleOk = (e) => {
         //만약 수정할 텍스트가 있다면 
-        if(textAreaM || textAreaM.trim()){
+        if(textAreaM && textAreaM.trim()){
             try {
                 //axios
-                console.log('hello')
-            } catch (error) {
+                axios.put(`http://localhost:3065/api/post?postId=${postId}`, {
+                    content : textAreaM
+                })
+                .then(res=>{
+                    axios.get(`http://localhost:3065/api/posts`)
+                    .then(res => {
+                        setData(res.data);
+                    })
+                    setPostVisible(false);
+                    setStatusM(false);
+                    setTextAreaM('');
+                    setPostId(null);
+                })
                 
+            } catch (error) {
+                console.error(error);
             }
         }
         setTextAreaM('');
@@ -65,7 +78,14 @@ const post = (props) => {
     const deletePost = () => {
         try {
             axios.delete(`http://localhost:3065/api/post?postId=${postId}`)
-            window.location.reload();
+            axios.get(`http://localhost:3065/api/posts`)
+            .then(res => {
+                setData(res.data);
+            })
+            setPostVisible(false);
+            setStatusM(false);
+            setTextAreaM('');
+            setPostId(null);
 
         } catch (error) {
             console.error(error);
@@ -127,7 +147,7 @@ const post = (props) => {
                     <p style={{ fontSize: '20px', color: 'black', float: 'right', marginTop: '9px', marginBottom: '10px', cursor: 'pointer' }} onClick={logoutOnClick} >LogOut</p>&nbsp;&nbsp;&nbsp;
                             <Divider style={{ marginTop: '1px', marginBottom: '10px' }} />
 
-                    <Wirte />
+                    <Wirte setData={setData} />
 
                     <Row gutter={[8, 8]} style={{ marginLeft: '30px', marginRight: '30px' }} >
                         <InfiniteScroll

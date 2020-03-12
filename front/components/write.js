@@ -7,7 +7,7 @@ import { UploadOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 
 
-const write = () => {
+const write = (prop) => {
 
     const [textValue, setTextValue] = useState('');
     const [imagePath, setImagePath] = useState('');
@@ -45,7 +45,7 @@ const write = () => {
                 image : imagePath,
             },{withCredentials:true})
             .then(res=>{
-                window.location.reload();
+               window.location.reload()
             })
         } catch (error) {
             console.error(error)
